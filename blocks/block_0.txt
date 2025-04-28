@@ -1,0 +1,7 @@
+Index: 0
+Timestamp: 2025-04-28 22:19:01
+PreviousHash: 0
+CurrentHash: DA27CA2C
+MerkleRoot: E62C8CF7
+Transactions:
+  System -> FirstUser : 0
