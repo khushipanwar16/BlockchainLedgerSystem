@@ -1,13 +1,10 @@
 package core;
 
+import java.io.*;
+import structures.MyArray;
 import structures.MyLinkedList;
 import structures.MyStack;
-import structures.MyQueue;
-import structures.MyArray;
 import utils.TimestampGenerator;
-
-import java.io.*;
-import java.util.Scanner;
 
 // Manages the entire blockchain
 public class Blockchain {
@@ -60,6 +57,7 @@ public class Blockchain {
     // Display the blockchain (latest to oldest)
     public void displayBlockchain() {
         System.out.println("\n📜 Blockchain:");
+        System.out.println("Chain size = " + chain.size()); 
         for (int i = 0; i < chain.size(); i++) {
             Block block = chain.get(i);
             System.out.println(block);

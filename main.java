@@ -1,9 +1,7 @@
 import core.Blockchain;
 import core.Transaction;
-import structures.MyArray;
 import java.util.Scanner;
-import java.io.FileWriter;
-import java.io.IOException;
+import structures.MyArray;
 
 public class main {
 
@@ -28,6 +26,8 @@ public class main {
             System.out.print("Enter your choice: ");
 
             choice = Integer.parseInt(scanner.nextLine());
+            System.out.println("You chose: " + choice);
+
 
             switch (choice) {
                 case 1:

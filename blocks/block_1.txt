@@ -1,0 +1,8 @@
+Index: 1
+Timestamp: 2025-04-29 21:53:40
+PreviousHash: DC5473C
+CurrentHash: FEF9D520
+MerkleRoot: F62201F4FCA08A24
+Transactions:
+  khushi -> honey : 500
+  khushi -> krrish : 400
