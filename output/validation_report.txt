@@ -1,0 +1,14 @@
+Blockchain Validation Report:
+
+Block 0:
+✔ Merkle Root Valid
+✔ Hash Match
+✔ Previous Link OK
+Status: VALID
+-----------------------------------
+Block 1:
+✔ Merkle Root Valid
+✔ Hash Match
+❌ Previous Link Broken
+Status: INVALID
+-----------------------------------

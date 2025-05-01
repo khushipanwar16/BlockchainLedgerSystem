@@ -1,15 +1,24 @@
 import core.Blockchain;
 import core.Transaction;
+import java.io.File;
 import java.util.Scanner;
 import structures.MyArray;
 
-public class main {
+public class Main {
 
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        Blockchain blockchain = new Blockchain(); // Initialize blockchain
-        blockchain.loadBlockchainFromFiles(); // Load existing blocks
+       Blockchain blockchain = new Blockchain();
+
+// Try loading from files
+File blockDir = new File("blocks");
+if (blockDir.exists() && blockDir.listFiles().length > 0) {
+    blockchain.loadBlockchainFromFiles(); // load blocks from file
+} else {
+    blockchain.initializeGenesisBlock(); // fallback: create new blockchain
+}
+
 
         int choice = -1;
 
@@ -26,8 +35,7 @@ public class main {
             System.out.print("Enter your choice: ");
 
             choice = Integer.parseInt(scanner.nextLine());
-            System.out.println("You chose: " + choice);
-
+           
 
             switch (choice) {
                 case 1:

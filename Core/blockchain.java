@@ -17,7 +17,7 @@ public class Blockchain {
     }
 
     // Create the first block manually
-    private void initializeGenesisBlock() {
+    public void initializeGenesisBlock() {
         if (chain.size() == 0) {
             MyArray<Transaction> genesisTransactions = new MyArray<>();
             genesisTransactions.add(new Transaction("System", "FirstUser", 0));

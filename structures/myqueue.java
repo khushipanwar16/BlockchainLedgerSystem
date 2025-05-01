@@ -1,54 +1,46 @@
 package structures;
 
 public class MyQueue<T> {
-    private T[] elements;
-    private int front, rear, size, capacity;
+    private MyArray<T> elements;
+    private int front, rear;
 
-    // Constructor to initialize the queue with a given capacity
-    public MyQueue(int capacity) {
-        this.capacity = capacity;
-        elements = (T[]) new Object[capacity];
+    // Constructor to initialize the queue
+    public MyQueue() {
+        elements = new MyArray<>(); // Using custom MyArray with default capacity
         front = 0;
         rear = -1;
-        size = 0;
-    }
-
-    // Check if the queue is full
-    public boolean isFull() {
-        return size == capacity;
     }
 
     // Check if the queue is empty
     public boolean isEmpty() {
-        return size == 0;
+        return elements.size() == 0;
     }
 
-    // Add an element to the queue
+    // Add an element to the queue (enqueue)
     public void enqueue(T element) {
-        if (isFull()) {
-            System.out.println("Queue is full, cannot add more elements.");
-            return;
-        }
-        rear = (rear + 1) % capacity;
-        elements[rear] = element;
-        size++;
+        elements.add(element); // Add to the end of the list
+        rear++;
     }
 
-    // Remove and return the first element from the queue
+    // Remove and return the first element from the queue (dequeue)
     public T dequeue() {
         if (isEmpty()) {
             System.out.println("Queue is empty, no element to dequeue.");
             return null;
         }
-        T element = elements[front];
-        front = (front + 1) % capacity;
-        size--;
+        T element = elements.get(front);  // Get the front element
+        // Shift the elements to the left
+        for (int i = 0; i < elements.size() - 1; i++) {
+            elements.add(elements.get(i + 1));  // Shift elements left
+        }
+        elements.clear();  // Remove the last element (shifted)
+        rear--;
         return element;
     }
 
     // Get the current size of the queue
     public int size() {
-        return size;
+        return elements.size();
     }
 
     // View the front element without removing it
@@ -56,14 +48,14 @@ public class MyQueue<T> {
         if (isEmpty()) {
             return null;
         }
-        return elements[front];
+        return elements.get(front);
     }
 
     // Clear the entire queue
     public void clear() {
+        elements.clear();
         front = 0;
         rear = -1;
-        size = 0;
     }
 
     // Display all elements in the queue for debugging purposes
@@ -72,9 +64,8 @@ public class MyQueue<T> {
             System.out.println("Queue is empty.");
             return;
         }
-        for (int i = 0; i < size; i++) {
-            int index = (front + i) % capacity;
-            System.out.println(elements[index]);
+        for (int i = front; i < elements.size(); i++) {
+            System.out.println(elements.get(i));
         }
     }
 }
