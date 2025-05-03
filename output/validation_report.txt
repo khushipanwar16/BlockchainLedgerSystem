@@ -1,14 +1,4 @@
-Blockchain Validation Report:
+🔍 Blockchain Validation Report:
 
-Block 0:
-✔ Merkle Root Valid
-✔ Hash Match
-✔ Previous Link OK
-Status: VALID
------------------------------------
-Block 1:
-✔ Merkle Root Valid
-✔ Hash Match
-❌ Previous Link Broken
-Status: INVALID
------------------------------------
+Block 5: ✔ Merkle Valid | ✔ Previous Link OK
+Block 6: Stored: 515CC0E | Recomputed: C8E6899A

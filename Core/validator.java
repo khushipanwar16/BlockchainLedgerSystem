@@ -17,41 +17,57 @@ public class Validator {
         this.chain = chain;
     }
 
-    // Validate the entire blockchain
     public void validateBlockchain() {
         try {
             File dir = new File("output");
             if (!dir.exists()) {
-                dir.mkdir();
+                dir.mkdir(); // Ensure output folder exists
             }
+    
             FileWriter writer = new FileWriter("output/validation_report.txt");
-            writer.write("Blockchain Validation Report:\n\n");
-
+            writer.write("🔍 Blockchain Validation Report:\n\n");
+    
             for (int i = 0; i < chain.size(); i++) {
                 Block block = chain.get(i);
-                writer.write("Block " + block.getIndex() + ":\n");
-
+                writer.write("Block " + block.getIndex() + ": ");
+    
                 boolean merkleValid = validateMerkleRoot(block);
                 boolean hashValid = validateCurrentHash(block);
-                boolean linkValid = (i == 0) || validatePreviousHash(chain.get(i - 1), block);
-
-                writer.write(merkleValid ? "✔ Merkle Root Valid\n" : "❌ Merkle Root Invalid\n");
-                writer.write(hashValid ? "✔ Hash Match\n" : "❌ Hash Mismatch\n");
-                writer.write(linkValid ? "✔ Previous Link OK\n" : "❌ Previous Link Broken\n");
-
-                boolean blockValid = merkleValid && hashValid && linkValid;
-                writer.write("Status: " + (blockValid ? "VALID" : "INVALID") + "\n");
-                writer.write("-----------------------------------\n");
+                boolean linkValid = (i == 0) || block.getPreviousHash().equals(chain.get(i - 1).getCurrentHash());
+    
+                // 🚨 Centralized Hash Link Error Detection
+                if (!linkValid) {
+                    writer.write("❌ Hash Link Error!\n");
+                    writer.write("  Expected: " + chain.get(i - 1).getCurrentHash() + " | ");
+                    writer.write("  Found: " + block.getPreviousHash() + "\n");
+                }
+    
+                if (!hashValid) {
+                    
+                    writer.write("Stored: " + block.getCurrentHash() + " | ");
+                    writer.write("Recomputed: " + block.calculateCurrentHash() + "\n");
+    
+                  
+                    writer.close();
+                    throw new IllegalStateException("Block " + block.getIndex() + " hash mismatch!");
+                }
+    
+                writer.write((merkleValid ? "✔ Merkle Valid | " : "❌ Merkle Invalid | "));
+                writer.write((linkValid ? "✔ Previous Link OK" : "❌ Previous Link Broken") + "\n");
             }
-
+    
+            writer.write("\n✅ Blockchain validation report saved.\n");
             writer.close();
-            System.out.println("✅ Blockchain validation report generated successfully.");
+    
+            System.out.println("✅ Report saved to 'output/validation_report.txt'.");
         } catch (IOException e) {
             System.out.println("❗ Error writing validation report.");
             e.printStackTrace();
         }
     }
-
+    
+    
+    
     // Validate Merkle Root by recomputing it
     private boolean validateMerkleRoot(Block block) {
         MyArray<Transaction> txns = block.getTransactions();
@@ -75,8 +91,9 @@ public class Validator {
         return recomputedHash.equals(block.getCurrentHash());
     }
 
-    // Validate the linkage between two blocks
-    private boolean validatePreviousHash(Block prevBlock, Block currentBlock) {
-        return prevBlock.getCurrentHash().equals(currentBlock.getPreviousHash());
-    }
+ // Validate the linkage between two blocks
+private boolean validatePreviousHash(Block prevBlock, Block currentBlock) {
+    return prevBlock.getCurrentHash().equals(currentBlock.getPreviousHash());
+}
+
 }

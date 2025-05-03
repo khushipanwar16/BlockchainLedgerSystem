@@ -1,6 +1,10 @@
+
+
+
 package core;
 
 import java.io.*;
+import java.util.Arrays;
 import structures.MyArray;
 import structures.MyLinkedList;
 import structures.MyStack;
@@ -13,17 +17,17 @@ public class Blockchain {
     // Constructor: Initialize an empty chain
     public Blockchain() {
         chain = new MyLinkedList<>();
-        initializeGenesisBlock();
+        loadBlockchainFromFiles(); // Try to load from files
     }
 
-    // Create the first block manually
+    // Create the first block manually (Genesis Block)
     public void initializeGenesisBlock() {
         if (chain.size() == 0) {
             MyArray<Transaction> genesisTransactions = new MyArray<>();
             genesisTransactions.add(new Transaction("System", "FirstUser", 0));
-            Block genesisBlock = new Block(0, TimestampGenerator.getCurrentTimestamp(), genesisTransactions, "0");
+            Block genesisBlock = new Block(0, TimestampGenerator.getCurrentTimestamp(), genesisTransactions, "0"); // Genesis block has "0" as previous hash
             chain.add(genesisBlock);
-            saveBlockToFile(genesisBlock);
+            saveBlockToFile(genesisBlock); // Save to file
         }
     }
 
@@ -32,10 +36,15 @@ public class Blockchain {
         Block lastBlock = chain.get(chain.size() - 1);
         int newIndex = lastBlock.getIndex() + 1;
         String timestamp = TimestampGenerator.getCurrentTimestamp();
-        String prevHash = lastBlock.getCurrentHash();
+        String prevHash = lastBlock.getCurrentHash(); // Get the current hash of the last block to be the previousHash
         Block newBlock = new Block(newIndex, timestamp, transactions, prevHash);
         chain.add(newBlock);
-        saveBlockToFile(newBlock);
+        saveBlockToFile(newBlock); // Save new block to file
+        System.out.println("🔍 Adding Block " + newIndex);
+        System.out.println("Expected Previous Hash: " + prevHash);
+        System.out.println("Computed Current Hash for Block " + lastBlock.getIndex() + ": " + lastBlock.getCurrentHash());
+        
+
     }
 
     // Save block into a file inside /blocks/
@@ -43,10 +52,10 @@ public class Blockchain {
         try {
             File dir = new File("blocks");
             if (!dir.exists()) {
-                dir.mkdir();
+                dir.mkdir(); // Create the blocks directory if it doesn't exist
             }
             FileWriter writer = new FileWriter("blocks/block_" + block.getIndex() + ".txt");
-            writer.write(block.serialize());
+            writer.write(block.serialize()); // Serialize block to string and write it
             writer.close();
         } catch (IOException e) {
             System.out.println("❗ Error saving block to file.");
@@ -57,7 +66,7 @@ public class Blockchain {
     // Display the blockchain (latest to oldest)
     public void displayBlockchain() {
         System.out.println("\n📜 Blockchain:");
-        System.out.println("Chain size = " + chain.size()); 
+        System.out.println("Chain size = " + chain.size());
         for (int i = 0; i < chain.size(); i++) {
             Block block = chain.get(i);
             System.out.println(block);
@@ -91,7 +100,7 @@ public class Blockchain {
                 for (int j = 0; j < txns.size(); j++) {
                     Transaction tx = txns.get(j);
                     if (tx.getSender().equalsIgnoreCase(username) || tx.getReceiver().equalsIgnoreCase(username)) {
-                        writer.write((i+1) + ". " + tx.toString() + "\n");
+                        writer.write((i + 1) + ". " + tx.toString() + "\n");
                     }
                 }
             }
@@ -115,7 +124,7 @@ public class Blockchain {
                 for (int j = 0; j < txns.size(); j++) {
                     Transaction tx = txns.get(j);
                     if (tx.getAmount() >= minAmount && tx.getAmount() <= maxAmount) {
-                        writer.write((i+1) + ". " + tx.toString() + "\n");
+                        writer.write((i + 1) + ". " + tx.toString() + "\n");
                     }
                 }
             }
@@ -127,21 +136,29 @@ public class Blockchain {
         }
     }
 
-    // Load blockchain from existing block files
+    // Load blockchain from files
     public void loadBlockchainFromFiles() {
         File dir = new File("blocks");
         if (!dir.exists()) {
             System.out.println("❗ Blocks folder doesn't exist. Creating new blockchain.");
-            initializeGenesisBlock();
+            initializeGenesisBlock(); // If no block folder exists, initialize the Genesis block
             return;
         }
 
+        // Get files and sort them by index
         File[] files = dir.listFiles();
         if (files == null || files.length == 0) {
             System.out.println("❗ No block files found. Creating Genesis Block.");
-            initializeGenesisBlock();
+            initializeGenesisBlock(); // If no files, initialize Genesis block
             return;
         }
+
+        // Sort files by block index (e.g., block_0, block_1, ...)
+        Arrays.sort(files, (f1, f2) -> {
+            int index1 = Integer.parseInt(f1.getName().replaceAll("\\D+", ""));
+            int index2 = Integer.parseInt(f2.getName().replaceAll("\\D+", ""));
+            return Integer.compare(index1, index2);
+        });
 
         // Clear current chain first
         chain = new MyLinkedList<>();
@@ -161,46 +178,54 @@ public class Blockchain {
 
                     while ((line = reader.readLine()) != null) {
                         line = line.trim();
-                        if (line.startsWith("Index:")) {
-                            index = Integer.parseInt(line.substring(6).trim());
-                        } else if (line.startsWith("Timestamp:")) {
-                            timestamp = line.substring(10).trim();
-                        } else if (line.startsWith("PreviousHash:")) {
-                            prevHash = line.substring(13).trim();
-                        } else if (line.startsWith("CurrentHash:")) {
-                            currHash = line.substring(12).trim();
-                        } else if (line.startsWith("MerkleRoot:")) {
-                            merkleRoot = line.substring(11).trim();
-                        } else if (line.startsWith("Transactions:")) {
-                            // Continue reading transaction lines
-                            while ((line = reader.readLine()) != null && !line.trim().isEmpty()) {
-                                String txnLine = line.trim();
-                                txnLine = txnLine.replace("  ", ""); // remove indent
-                                String[] parts = txnLine.split(" -> | : ");
-                                if (parts.length == 3) {
-                                    transactions.add(new Transaction(parts[0], parts[1], Integer.parseInt(parts[2])));
+                        try {
+                            if (line.startsWith("Index:")) {
+                                index = Integer.parseInt(line.substring(6).trim());
+                            } else if (line.startsWith("Timestamp:")) {
+                                timestamp = line.substring(10).trim();
+                            } else if (line.startsWith("PreviousHash:")) {
+                                prevHash = line.substring(13).trim();
+                            } else if (line.startsWith("CurrentHash:")) {
+                                currHash = line.substring(12).trim();
+                            } else if (line.startsWith("MerkleRoot:")) {
+                                merkleRoot = line.substring(11).trim();
+                            } else if (line.startsWith("Transactions:")) {
+                                // Continue reading transaction lines
+                                while ((line = reader.readLine()) != null && !line.trim().isEmpty()) {
+                                    String txnLine = line.trim();
+                                    txnLine = txnLine.replace("  ", ""); // remove indent
+                                    String[] parts = txnLine.split(" -> | : ");
+                                    if (parts.length == 3) {
+                                        transactions.add(new Transaction(parts[0], parts[1], Integer.parseInt(parts[2])));
+                                    }
                                 }
                             }
+                        } catch (Exception e) {
+                            System.out.println("❗ Failed to parse line: " + line);
                         }
                     }
                     reader.close();
-                    Block block = new Block(index, timestamp, transactions, prevHash);
-                    chain.add(block);
+
+                    // Validate and load block
+                    Block block = new Block(index, timestamp, transactions, prevHash, currHash, merkleRoot);
+
+                    // Validate block integrity
+                    if (block.getCurrentHash().equals(currHash) && block.getMerkleRoot().equals(merkleRoot)) {
+                        chain.add(block);
+                    } else {
+                        System.out.println("❗ Invalid block detected at index " + index + ". Skipping block.");
+                    }
                 }
             }
-            System.out.println("✅ Blockchain loaded successfully from files.");
+           
         } catch (IOException e) {
             System.out.println("❗ Error loading blockchain from files.");
             e.printStackTrace();
         }
     }
 
-
-// Getter to expose the chain to Validator
-public structures.MyLinkedList<Block> getChain() {
-    return chain;
-}
-
-
-
+    // Getter to expose the chain to Validator
+    public structures.MyLinkedList<Block> getChain() {
+        return chain;
+    }
 }

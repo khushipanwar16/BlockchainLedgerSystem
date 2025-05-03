@@ -1,7 +1,0 @@
-Index: 0
-Timestamp: 2025-04-30 20:49:35
-PreviousHash: 0
-CurrentHash: FB6C0DDA
-MerkleRoot: E62C8CF7
-Transactions:
-  System -> FirstUser : 0
