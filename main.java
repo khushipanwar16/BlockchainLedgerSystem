@@ -11,12 +11,11 @@ public class main {
         Scanner scanner = new Scanner(System.in);
        Blockchain blockchain = new Blockchain();
 
-// Try loading from files
 File blockDir = new File("blocks");
 if (blockDir.exists() && blockDir.listFiles().length > 0) {
-    blockchain.loadBlockchainFromFiles(); // load blocks from file
+    blockchain.loadBlockchainFromFiles(); 
 } else {
-    blockchain.initializeGenesisBlock(); // fallback: create new blockchain
+    blockchain.initializeGenesisBlock(); 
 }
 
 
@@ -82,7 +81,6 @@ if (blockDir.exists() && blockDir.listFiles().length > 0) {
         scanner.close();
     }
 
-    // Submit transactions manually via console
     private static void submitNewTransactions(Blockchain blockchain, Scanner scanner) {
         MyArray<Transaction> transactionList = new MyArray<>();
 
