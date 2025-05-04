@@ -1,8 +1,0 @@
-Index: 5
-Timestamp: 2025-05-03 14:23:02
-PreviousHash: FF6AED3A
-CurrentHash: 2A4E4673
-MerkleRoot: 8ABBDFF8D600C1
-Transactions:
-  k -> h : 200
-  k -> k : 100

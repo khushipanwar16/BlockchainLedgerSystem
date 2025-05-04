@@ -1,8 +1,0 @@
-Index: 6
-Timestamp: 2025-05-03 17:04:54
-PreviousHash: 2A4E4673
-CurrentHash: 515CC0E
-MerkleRoot: F62201F4FCA08A24
-Transactions:
-  khushi -> honey : 500
-  khushi -> krrish : 400
