@@ -3,7 +3,7 @@ package structures;
 public class MyArray<T> {
     private Object[] data;
     private int size;
-    private static final int INITIAL_CAPACITY = 4; // Optimal for block transactions
+    private static final int INITIAL_CAPACITY = 4; 
 
     public MyArray() {
         this(INITIAL_CAPACITY);
@@ -16,8 +16,6 @@ public class MyArray<T> {
         this.data = new Object[initialCapacity];
         this.size = 0;
     }
-
-    // Core Blockchain-Critical Methods
     
     public void add(T element) {
         if (size == data.length) {
@@ -36,10 +34,9 @@ public class MyArray<T> {
         return size;
     }
 
-    // Merkle Tree Support
     public MyArray<T> getRange(int start, int end) {
         validateIndex(start);
-        validateIndex(end-1); // end is exclusive
+        validateIndex(end-1); 
         
         MyArray<T> slice = new MyArray<>(end - start);
         for (int i = start; i < end; i++) {
@@ -48,11 +45,10 @@ public class MyArray<T> {
         return slice;
     }
 
-    // Pure Manual Implementation
     private void resizeManually() {
         Object[] newData = new Object[data.length * 2];
         for (int i = 0; i < size; i++) {
-            newData[i] = data[i]; // Manual copy
+            newData[i] = data[i];
         }
         data = newData;
     }
@@ -65,15 +61,13 @@ public class MyArray<T> {
         }
     }
 
-    // Blockchain-Specific Optimizations
     public void clear() {
         for (int i = 0; i < size; i++) {
-            data[i] = null; // Help GC
+            data[i] = null; 
         }
         size = 0;
     }
 
-    // Manual toString() without StringBuilder
     @Override
     public String toString() {
         if (size == 0) return "[]";
