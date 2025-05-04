@@ -7,12 +7,10 @@ import structures.MyArray;
 import structures.MyLinkedList;
 import utils.HashSimulator;
 
-// Class to validate blockchain
 public class Validator {
 
     private MyLinkedList<Block> chain;
 
-    // Constructor: take the blockchain to validate
     public Validator(MyLinkedList<Block> chain) {
         this.chain = chain;
     }
@@ -21,7 +19,7 @@ public class Validator {
         try {
             File dir = new File("output");
             if (!dir.exists()) {
-                dir.mkdir(); // Ensure output folder exists
+                dir.mkdir(); 
             }
     
             FileWriter writer = new FileWriter("output/validation_report.txt");
@@ -35,7 +33,6 @@ public class Validator {
                 boolean hashValid = validateCurrentHash(block);
                 boolean linkValid = (i == 0) || block.getPreviousHash().equals(chain.get(i - 1).getCurrentHash());
     
-                // 🚨 Centralized Hash Link Error Detection
                 if (!linkValid) {
                     writer.write("❌ Hash Link Error!\n");
                     writer.write("  Expected: " + chain.get(i - 1).getCurrentHash() + " | ");
@@ -66,9 +63,6 @@ public class Validator {
         }
     }
     
-    
-    
-    // Validate Merkle Root by recomputing it
     private boolean validateMerkleRoot(Block block) {
         MyArray<Transaction> txns = block.getTransactions();
         if (txns.size() == 0) return block.getMerkleRoot().equals("");
@@ -78,20 +72,17 @@ public class Validator {
             hashes[i] = HashSimulator.hash(txns.get(i).serialize());
         }
 
-        // Rebuild Merkle Tree
         structures.MyMerkleTree<String> merkleTree = new structures.MyMerkleTree<>(hashes);
         String recomputedRoot = merkleTree.getMerkleRoot();
         return recomputedRoot.equals(block.getMerkleRoot());
     }
 
-    // Validate the Current Hash by recalculating block data
     private boolean validateCurrentHash(Block block) {
         String data = block.getIndex() + block.getTimestamp() + block.getMerkleRoot() + block.getPreviousHash();
         String recomputedHash = HashSimulator.hash(data);
         return recomputedHash.equals(block.getCurrentHash());
     }
 
- // Validate the linkage between two blocks
 private boolean validatePreviousHash(Block prevBlock, Block currentBlock) {
     return prevBlock.getCurrentHash().equals(currentBlock.getPreviousHash());
 }
