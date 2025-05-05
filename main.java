@@ -1,23 +1,23 @@
+
 import core.Blockchain;
 import core.Transaction;
 import java.io.File;
 import java.util.Scanner;
 import structures.MyArray;
 
-public class main {
+public class Main {
 
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-       Blockchain blockchain = new Blockchain();
+        Blockchain blockchain = new Blockchain();
 
-File blockDir = new File("blocks");
-if (blockDir.exists() && blockDir.listFiles().length > 0) {
-    blockchain.loadBlockchainFromFiles(); 
-} else {
-    blockchain.initializeGenesisBlock(); 
-}
-
+        File blockDir = new File("blocks");
+        if (blockDir.exists() && blockDir.listFiles().length > 0) {
+            blockchain.loadBlockchainFromFiles();
+        } else {
+            blockchain.initializeGenesisBlock();
+        }
 
         int choice = -1;
 
@@ -34,7 +34,6 @@ if (blockDir.exists() && blockDir.listFiles().length > 0) {
             System.out.print("Enter your choice: ");
 
             choice = Integer.parseInt(scanner.nextLine());
-           
 
             switch (choice) {
                 case 1:

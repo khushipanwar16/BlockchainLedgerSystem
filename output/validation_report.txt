@@ -1,4 +1,3 @@
 🔍 Blockchain Validation Report:
 
-Block 5: ✔ Merkle Valid | ✔ Previous Link OK
-Block 6: Stored: 515CC0E | Recomputed: C8E6899A
+Block 0: Stored:  | Recomputed: E2C293FF

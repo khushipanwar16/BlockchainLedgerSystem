@@ -2,10 +2,9 @@ package structures;
 
 public class MyLinkedList<T> {
 
-    // Node class (inner class)
     private class Node {
-        T data;        // Data of generic type T
-        Node next;     // Pointer to next node
+        T data;        
+        Node next;     
 
         Node(T data) {
             this.data = data;
@@ -13,19 +12,16 @@ public class MyLinkedList<T> {
         }
     }
 
-    // Head (start) and tail (end) of the list
     private Node head;
     private Node tail;
     private int size;
 
-    // Constructor
     public MyLinkedList() {
         this.head = null;
         this.tail = null;
         this.size = 0;
     }
 
-    // Add element at the end
     public void add(T data) {
         Node newNode = new Node(data);
 
@@ -40,7 +36,6 @@ public class MyLinkedList<T> {
         size++;
     }
 
-    // Get element by index
     public T get(int index) {
         if (index < 0 || index >= size) {
             System.out.println("Index out of bounds.");
@@ -55,17 +50,14 @@ public class MyLinkedList<T> {
         return current.data;
     }
 
-    // Get size of list
     public int size() {
         return size;
     }
 
-    // Check if list is empty
     public boolean isEmpty() {
         return size == 0;
     }
 
-    // Remove element by index (optional, if needed)
     public void remove(int index) {
         if (index < 0 || index >= size) {
             System.out.println("Index out of bounds.");
@@ -87,7 +79,6 @@ public class MyLinkedList<T> {
         size--;
     }
 
-    // Display list (for testing purpose)
     public void display() {
         Node current = head;
         while (current != null) {
