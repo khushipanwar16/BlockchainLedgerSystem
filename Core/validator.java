@@ -23,7 +23,7 @@ public class Validator {
             }
     
             FileWriter writer = new FileWriter("output/validation_report.txt");
-            writer.write("🔍 Blockchain Validation Report:\n\n");
+            writer.write(" Blockchain Validation Report:\n\n");
     
             for (int i = 0; i < chain.size(); i++) {
                 Block block = chain.get(i);
@@ -53,12 +53,12 @@ public class Validator {
                 writer.write((linkValid ? "✔ Previous Link OK" : "❌ Previous Link Broken") + "\n");
             }
     
-            writer.write("\n✅ Blockchain validation report saved.\n");
+            writer.write("\n Blockchain validation report saved.\n");
             writer.close();
     
-            System.out.println("✅ Report saved to 'output/validation_report.txt'.");
+            System.out.println(" Report saved to 'output/validation_report.txt'.");
         } catch (IOException e) {
-            System.out.println("❗ Error writing validation report.");
+            System.out.println("! Error writing validation report.");
             e.printStackTrace();
         }
     }

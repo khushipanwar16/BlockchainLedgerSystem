@@ -44,7 +44,7 @@ public class Blockchain {
             writer.write(block.serialize()); 
             writer.close();
         } catch (IOException e) {
-            System.out.println("❗ Error saving block to file.");
+            System.out.println("! Error saving block to file.");
             e.printStackTrace();
         }
     }
@@ -60,7 +60,7 @@ public class Blockchain {
     }
 
     public void displayBlockchainReverse() {
-        System.out.println("\n🔁 Blockchain in Reverse Order:");
+        System.out.println("\n Blockchain in Reverse Order:");
         MyStack<Block> stack = new MyStack<>();
         for (int i = 0; i < chain.size(); i++) {
             stack.push(chain.get(i));
@@ -88,9 +88,9 @@ public class Blockchain {
                 }
             }
             writer.close();
-            System.out.println("✅ User transaction report generated.");
+            System.out.println("User transaction report generated.");
         } catch (IOException e) {
-            System.out.println("❗ Error writing user transaction report.");
+            System.out.println("! Error writing user transaction report.");
             e.printStackTrace();
         }
     }
@@ -111,9 +111,9 @@ public class Blockchain {
                 }
             }
             writer.close();
-            System.out.println("✅ Amount range transaction report generated.");
+            System.out.println(" Amount range transaction report generated.");
         } catch (IOException e) {
-            System.out.println("❗ Error writing amount range report.");
+            System.out.println("! Error writing amount range report.");
             e.printStackTrace();
         }
     }
@@ -121,14 +121,14 @@ public class Blockchain {
     public void loadBlockchainFromFiles() {
         File dir = new File("blocks");
         if (!dir.exists()) {
-            System.out.println("❗ Blocks folder doesn't exist. Creating new blockchain.");
+            System.out.println("! Blocks folder doesn't exist. Creating new blockchain.");
             initializeGenesisBlock();
             return;
         }
 
         File[] files = dir.listFiles();
         if (files == null || files.length == 0) {
-            System.out.println("❗ No block files found. Creating Genesis Block.");
+            System.out.println("! No block files found. Creating Genesis Block.");
             initializeGenesisBlock(); 
             return;
         }
@@ -186,7 +186,7 @@ public class Blockchain {
                                 }
                             }
                         } catch (Exception e) {
-                            System.out.println("❗ Failed to parse line: " + line);
+                            System.out.println("! Failed to parse line: " + line);
                         }
                     }
                     reader.close();
@@ -196,12 +196,12 @@ public class Blockchain {
                     if (block.getCurrentHash().equals(currHash) && block.getMerkleRoot().equals(merkleRoot)) {
                         chain.add(block);
                     } else {
-                        System.out.println("❗ Invalid block detected at index " + index + ". Skipping block.");
+                        System.out.println("! Invalid block detected at index " + index + ". Skipping block.");
                     }
                 }
             }
         } catch (IOException e) {
-            System.out.println("❗ Error loading blockchain from files.");
+            System.out.println("! Error loading blockchain from files.");
             e.printStackTrace();
         }
     }

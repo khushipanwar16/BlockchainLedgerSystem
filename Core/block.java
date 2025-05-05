@@ -58,11 +58,6 @@ public class Block {
         String recalculatedMerkleRoot = buildMerkleRoot();
     }
 
-    // public boolean validatePreviousHash(String previousBlockHash) {
-    //     return previousHash.equals(previousBlockHash);
-    // }
-
-
     public int getIndex() { return index; }
     public String getTimestamp() { return timestamp; }
     public MyArray<Transaction> getTransactions() { return transactions; }

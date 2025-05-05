@@ -29,7 +29,7 @@ public class MyStack<T> {
 
     public T pop() {
         if (isEmpty()) {
-            System.out.println("❗ Stack is empty. Cannot pop.");
+            System.out.println("! Stack is empty. Cannot pop.");
             return null;
         }
 
@@ -41,7 +41,7 @@ public class MyStack<T> {
 
     public T peek() {
         if (isEmpty()) {
-            System.out.println("❗ Stack is empty. Nothing to peek.");
+            System.out.println("! Stack is empty. Nothing to peek.");
             return null;
         }
 
