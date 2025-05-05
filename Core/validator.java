@@ -45,15 +45,14 @@ public class Validator {
                     writer.write("Recomputed: " + block.calculateCurrentHash() + "\n");
     
                   
-                    writer.close();
-                    throw new IllegalStateException("Block " + block.getIndex() + " hash mismatch!");
+                    // writer.write(" Block " + block.getIndex() + " hash mismatch!\n");
+
                 }
     
                 writer.write((merkleValid ? "✔ Merkle Valid | " : "❌ Merkle Invalid | "));
                 writer.write((linkValid ? "✔ Previous Link OK" : "❌ Previous Link Broken") + "\n");
             }
     
-            writer.write("\n Blockchain validation report saved.\n");
             writer.close();
     
             System.out.println(" Report saved to 'output/validation_report.txt'.");

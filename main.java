@@ -72,7 +72,7 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("❗ Invalid choice. Please try again.");
+                    System.out.println("! Invalid choice. Please try again.");
             }
 
         } while (choice != 7);
@@ -95,7 +95,7 @@ public class Main {
 
             String[] parts = input.split(",");
             if (parts.length != 3) {
-                System.out.println("❗ Invalid format. Try again.");
+                System.out.println("! Invalid format. Try again.");
                 continue;
             }
 
@@ -106,7 +106,7 @@ public class Main {
             try {
                 amount = Integer.parseInt(parts[2].trim());
             } catch (NumberFormatException e) {
-                System.out.println("❗ Amount must be a number.");
+                System.out.println("! Amount must be a number.");
                 continue;
             }
 
@@ -116,9 +116,9 @@ public class Main {
 
         if (transactionList.size() > 0) {
             blockchain.addBlock(transactionList);
-            System.out.println("✅ Block created and added to blockchain.");
+            System.out.println(" Block created and added to blockchain.");
         } else {
-            System.out.println("❗ No transactions were entered. Block not created.");
+            System.out.println("! No transactions were entered. Block not created.");
         }
     }
 }
