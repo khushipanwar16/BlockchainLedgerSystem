@@ -1,4 +1,3 @@
  Blockchain Validation Report:
 
-Block 0: Stored:  | Recomputed: 1E140597
-❌ Merkle Invalid | ✔ Previous Link OK
+Block 0: ✔ Merkle Valid | ✔ Previous Link OK
